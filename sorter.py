@@ -41,7 +41,7 @@ success_count = 0
 
 def format_date(day, month, year):
     date_path = f"{day}.{month}.{year}"
-
+    return date_path
 def format_suunta(y, x, suunta_path):
     if y == 720:
         suunta_path += "/720p"
@@ -60,11 +60,11 @@ for img in IMAGES:
         try:
             if "EXIF DateTimeOriginal" in tags:
                 day, month, year = date(str(tags["EXIF DateTimeOriginal"])[:10].replace(":", "."))
-                format_date(day, month, year)
+                date_path = format_date(day, month, year)
                 success_count += 1
             if not "EXIF DateTimeOriginal" in tags and "EXIF ModifyDate" in tags:
                 day, month, year = date(str(tags["EXIF ModifyDate"])[:10].replace(":", "."))
-                format_date(day, month, year)
+                date_path = format_date(day, month, year)
                 success_count += 1
         except:
             print(str(img) + " does not have EXIF tags.")
