@@ -42,7 +42,9 @@ success_count = 0
 def format_date(day, month, year):
     return f"{day}.{month}.{year}"
 
-def format_suunta(y, x, suunta_path):
+def suunta(DIRS_PATH, format_suunta, make_dire, date_path, y, x, suunta_path):
+    if not os.path.exists(DIRS_PATH + date_path + suunta_path):
+        os.mkdir(DIRS_PATH + date_path + suunta_path)
     if y == 720:
         suunta_path += "/720p"
     elif y == 1080 and x == 1920 or x == 1080 and x == 1920:
@@ -76,22 +78,13 @@ for img in IMAGES:
         y = str(tags["YResolution"])
         x = str(tags["XResolution"])
         if y < x:
-            suunta_path = "vaaka"
-            if not os.path.exists(DIRS_PATH + date_path + suunta_path):
-                os.mkdir(DIRS_PATH + date_path + suunta_path)
-            suunta_path = format_suunta(y, x, suunta_path)
+            suunta_path = suunta(DIRS_PATH, date_path, y, x, "vaaka")
 
         elif x < y:
-            suunta_path = "pysty"
-            if not os.path.exists(DIRS_PATH + date_path + "pysty" ):
-                os.mkdir(DIRS_PATH + date_path + "pysty")
-            suunta_path = format_suunta(y, x, suunta_path)
+            suunta_path = suunta(DIRS_PATH, date_path, y, x, "pysty")
             
         elif x == y:
-            suunta_path = "nelio"
-            if not os.path.exists(DIRS_PATH + date_path + "nelio"):
-                os.mkdir(DIRS_PATH + date_path + "nelio")
-            suunta_path = format_suunta(y, x, suunta_path)
+            suunta_path = suunta(DIRS_PATH, date_path, y, x, "nelio")
 
     shutil.move(img, DIRS_PATH + date_path + "/"  + suunta_path + "/" + img[-12:])
 
