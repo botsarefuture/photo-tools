@@ -40,8 +40,8 @@ fail_count = 0
 success_count = 0
 
 def format_date(day, month, year):
-    date_path = f"{day}.{month}.{year}"
-    return date_path
+    return f"{day}.{month}.{year}"
+
 def format_suunta(y, x, suunta_path):
     if y == 720:
         suunta_path += "/720p"
@@ -54,16 +54,19 @@ def format_suunta(y, x, suunta_path):
     else:
         suunta_path = f"/{y}"
     return suunta_path
+
 for img in IMAGES:
     with open(img, "rb") as file:
         tags = exifread.process_file(file, details=False, stop_tag="DateTimeOriginal")
         try:
             if "EXIF DateTimeOriginal" in tags:
-                day, month, year = date(str(tags["EXIF DateTimeOriginal"])[:10].replace(":", "."))
+                item = "DateTimeOriginal"
+                day, month, year = date(str(tags[f"EXIF {item}"])[:10].replace(":", "."))
                 date_path = format_date(day, month, year)
                 success_count += 1
-            if not "EXIF DateTimeOriginal" in tags and "EXIF ModifyDate" in tags:
-                day, month, year = date(str(tags["EXIF ModifyDate"])[:10].replace(":", "."))
+            if not "EXIF DateTimeOriginal" in tags:
+                item = "ModifyDate"
+                day, month, year = date(str(tags[f"EXIF {item}"])[:10].replace(":", "."))
                 date_path = format_date(day, month, year)
                 success_count += 1
         except:
@@ -77,6 +80,7 @@ for img in IMAGES:
             if not os.path.exists(DIRS_PATH + date_path + suunta_path):
                 os.mkdir(DIRS_PATH + date_path + suunta_path)
             suunta_path = format_suunta(y, x, suunta_path)
+
         elif x < y:
             suunta_path = "pysty"
             if not os.path.exists(DIRS_PATH + date_path + "pysty" ):
