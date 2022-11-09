@@ -83,7 +83,7 @@ for img in IMAGES:
         elif x < y:
             suunta_path = suunta(DIRS_PATH, date_path, y, x, "pysty")
             
-        elif x == y:
+        elif x == y or x-1==y or y-1==x:
             suunta_path = suunta(DIRS_PATH, date_path, y, x, "nelio")
 
     shutil.move(img, DIRS_PATH + date_path + "/"  + suunta_path + "/" + img[-12:])
