@@ -1,9 +1,10 @@
 import os
 from config import PHOTO_FORMATS, IMAGES, VIDEO1_FORMATS, VIDEOS, DIRS_PATH
 
+
 def calculate_aspect(width: int, height: int) -> str:
     """Calculate the aspect ratio of the given width and height."""
-    
+
     def gcd(a, b):
         """Calculate the Greatest Common Divisor (GCD) of a and b."""
         while b:
@@ -22,7 +23,9 @@ def calculate_aspect(width: int, height: int) -> str:
 
     return f"{x}:{y}"
 
+
 print(calculate_aspect(1080, 1920))  # Expected output: '16:9'
+
 
 def get_suunta_path(DIRS_PATH: str, date_path: str, y: int, x: int) -> str:
     """Determine the subdirectory path based on resolution."""
@@ -45,9 +48,11 @@ def get_suunta_path(DIRS_PATH: str, date_path: str, y: int, x: int) -> str:
 
     return suunta_path
 
+
 def format_date(day: str, month: str, year: str) -> str:
     """Format the date in the format day.month.year."""
     return f"{day}.{month}.{year}"
+
 
 def parse_date(text: str) -> tuple:
     """Extract day, month, and year from a date string."""
@@ -55,6 +60,7 @@ def parse_date(text: str) -> tuple:
     month = text[5:7]
     day = text[8:10]
     return day, month, year
+
 
 def get_photos(path: str):
     """Scan directory for photo and video files based on configured formats."""
@@ -66,6 +72,7 @@ def get_photos(path: str):
             if any(file_path.endswith(fmt) for fmt in VIDEO1_FORMATS):
                 VIDEOS.append(file_path)
 
+
 def determine_suunta(date_path: str, y: int, x: int) -> str:
     """Determine the direction (landscape/portrait/square) based on resolution."""
     if y < x:
@@ -74,4 +81,3 @@ def determine_suunta(date_path: str, y: int, x: int) -> str:
         return get_suunta_path(DIRS_PATH, date_path, y, x)
     else:
         return get_suunta_path(DIRS_PATH, date_path, y, x)
-
